@@ -45,7 +45,8 @@ android {
 }
 
 dependencies {
-    compile project(':rxawareness')
+    compile project(':reactiveawareness')
+//    compile "com.mtramin:reactiveawareness:$versions.name"
 
     compile 'com.android.support:multidex:1.0.1'
     compile "com.android.support:appcompat-v7:$versions.supportLibrary"
