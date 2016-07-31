@@ -27,11 +27,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.android.gms.awareness.fence.AwarenessFence;
+import com.google.android.gms.awareness.fence.HeadphoneFence;
+import com.google.android.gms.awareness.fence.TimeFence;
 import com.google.android.gms.awareness.state.BeaconState;
+import com.google.android.gms.awareness.state.HeadphoneState;
 import com.google.android.gms.awareness.state.Weather;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
 import com.mtramin.reactiveawareness.ReactiveSnapshot;
+import com.mtramin.reactiveawareness_fence.BackgroundFence;
+import com.mtramin.reactiveawareness_fence.ObservableFence;
 
 import java.util.Locale;
 
@@ -41,14 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 38928;
     private CompositeSubscription subscriptions = new CompositeSubscription();
-
     private ReactiveSnapshot reactiveSnapshot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         reactiveSnapshot = ReactiveSnapshot.create(this);
     }
 
@@ -63,6 +67,35 @@ public class MainActivity extends AppCompatActivity {
         } else {
             subscribeToLocationBasedSnapshots();
         }
+
+
+        subscribeToBackgroundFence();
+        subscribeToRuntimeFence();
+    }
+
+    private void subscribeToBackgroundFence() {
+        subscriptions.add(BackgroundFence.query(this)
+                .subscribe(
+                        fenceStateMap -> {
+                            if (!fenceStateMap.getFenceKeys().contains(ExampleFenceReceiver.HEADPHONES)) {
+                                AwarenessFence fence = HeadphoneFence.during(HeadphoneState.PLUGGED_IN);
+                                BackgroundFence.register(this, ExampleFenceReceiver.HEADPHONES, fence);
+                            }
+                        },
+                        throwable -> logError(throwable, "query")
+                )
+        );
+    }
+
+    private void subscribeToRuntimeFence() {
+        AwarenessFence fence = TimeFence.inInterval(5000, 10000);
+        subscriptions.add(
+                ObservableFence.create(this, fence)
+                        .subscribe(
+                                isTrue -> Log.e("TEST", "Runtime Fence: " + isTrue),
+                                throwable -> logError(throwable, "observable fence")
+                        )
+        );
     }
 
     @Override

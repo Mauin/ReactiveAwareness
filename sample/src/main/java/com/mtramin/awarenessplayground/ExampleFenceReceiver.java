@@ -14,4 +14,25 @@
  * limitations under the License.
  */
 
-include ':sample', ':reactiveawareness', ':reactiveawareness-fence'
+package com.mtramin.awarenessplayground;
+
+import android.util.Log;
+
+import com.mtramin.reactiveawareness_fence.FenceReceiver;
+
+/**
+ * TODO: JAVADOC
+ */
+public class ExampleFenceReceiver extends FenceReceiver {
+
+    public static final String HEADPHONES = "Headphones";
+
+    @Override
+    protected void onUpdate(String key, boolean state) {
+        switch (key) {
+            case HEADPHONES:
+                Log.e("TEST", "Headphones: " + state);
+                break;
+        }
+    }
+}
