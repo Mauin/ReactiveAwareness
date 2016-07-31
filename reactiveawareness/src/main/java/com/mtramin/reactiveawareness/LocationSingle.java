@@ -30,7 +30,7 @@ import rx.Single;
 /**
  * Provides {@link Single}s that provide information about the current location of the device.
  */
-class LocationSingle extends BaseGoogleApiClientRequest<Location, LocationResult> {
+class LocationSingle extends BaseAwarenessSingle<Location, LocationResult> {
 
     private LocationSingle(Context context) {
         super(context);

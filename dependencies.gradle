@@ -26,15 +26,16 @@ ext.versions = [
         buildTools             : '24.0.0',
 
         // Gradle Versions
-        androidGradlePlugin    : '2.2.0-alpha4',
+        androidGradlePlugin    : '2.2.0-alpha6',
         retrolambdaGradlePlugin: '3.2.5',
-        mavenGradlePlugin      : '1.3',
+        mavenGradlePlugin      : '1.4.1',
         bintrayGradlePlugin    : '1.7',
 
         // Dependency Versions
         supportLibrary         : '24.0.0',
-        playServices           : '9.2.0',
-        rxJava                 : '1.1.6'
+        playServices           : '9.2.1',
+        rxJava                 : '1.1.8',
+        servant                : '9.2.1.0'
 ]
 
 ext.gradlePlugins = [

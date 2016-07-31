@@ -31,7 +31,7 @@ import rx.Single;
  *  Provides {@link Single}s that provide information about the current weather at the devices
  *  current location.
  */
-class WeatherSingle extends BaseGoogleApiClientRequest<Weather, WeatherResult> {
+class WeatherSingle extends BaseAwarenessSingle<Weather, WeatherResult> {
 
     private WeatherSingle(Context context) {
         super(context);

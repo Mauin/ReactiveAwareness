@@ -30,24 +30,25 @@ import rx.Single;
 /**
  * Provides {@link Single}s that provide the current activity state of the device.
  */
-class ActivitySingle extends BaseGoogleApiClientRequest<ActivityRecognitionResult, DetectedActivityResult> {
+class ActivitySingle extends BaseAwarenessSingle<ActivityRecognitionResult, DetectedActivityResult> {
 
     private ActivitySingle(Context context) {
         super(context);
     }
 
+    @RequiresPermission("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
     public static Single<ActivityRecognitionResult> create(Context context) {
         return Single.create(new ActivitySingle(context));
     }
 
     @Override
-    @RequiresPermission("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
-    protected PendingResult<DetectedActivityResult> createRequest(GoogleApiClient googleApiClient) {
-        return Awareness.SnapshotApi.getDetectedActivity(googleApiClient);
+    protected ActivityRecognitionResult unwrap(DetectedActivityResult result) {
+        return result.getActivityRecognitionResult();
     }
 
     @Override
-    protected ActivityRecognitionResult unwrap(DetectedActivityResult result) {
-        return result.getActivityRecognitionResult();
+    @RequiresPermission("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
+    protected PendingResult<? super DetectedActivityResult> createRequest(GoogleApiClient googleApiClient) {
+        return Awareness.SnapshotApi.getDetectedActivity(googleApiClient);
     }
 }

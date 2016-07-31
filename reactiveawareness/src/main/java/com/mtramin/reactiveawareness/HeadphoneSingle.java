@@ -29,7 +29,7 @@ import rx.Single;
 /**
  *  Provides {@link Single}s that provide information about the phones headphone state.
  */
-class HeadphoneSingle extends BaseGoogleApiClientRequest<Boolean, HeadphoneStateResult> {
+class HeadphoneSingle extends BaseAwarenessSingle<Boolean, HeadphoneStateResult> {
 
     private HeadphoneSingle(Context context) {
         super(context);

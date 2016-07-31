@@ -38,7 +38,7 @@ import rx.Single;
 /**
  * Provides {@link Single}s that provide information about nearby beacons to the device.
  */
-class BeaconSingle extends BaseGoogleApiClientRequest<List<BeaconState.BeaconInfo>, BeaconStateResult> {
+class BeaconSingle extends BaseAwarenessSingle<List<BeaconState.BeaconInfo>, BeaconStateResult> {
 
     private Collection<TypeFilter> typeFilters;
 
