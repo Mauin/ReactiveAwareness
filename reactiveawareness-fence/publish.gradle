@@ -17,7 +17,7 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def libName = 'ReactiveAwareness Fences'
+def libName = 'ReactiveAwareness'
 def libDescription =  'Android library to use the Awareness Fence API with RxJava'
 def mavenPackageType = 'aar'
 def mavenDeveloperId = 'mauin'
