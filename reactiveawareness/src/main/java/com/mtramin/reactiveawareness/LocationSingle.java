@@ -17,37 +17,38 @@
 package com.mtramin.reactiveawareness;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.annotation.RequiresPermission;
 
 import com.google.android.gms.awareness.Awareness;
-import com.google.android.gms.awareness.snapshot.DetectedActivityResult;
+import com.google.android.gms.awareness.snapshot.LocationResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.location.ActivityRecognitionResult;
 
 import rx.Single;
 
 /**
- * Provides {@link Single}s that provide the current activity state of the device.
+ * Provides {@link Single}s that provide information about the current location of the device.
  */
-class ActivitySingle extends BaseGoogleApiClientRequest<ActivityRecognitionResult, DetectedActivityResult> {
+class LocationSingle extends BaseAwarenessSingle<Location, LocationResult> {
 
-    private ActivitySingle(Context context) {
+    private LocationSingle(Context context) {
         super(context);
     }
 
-    public static Single<ActivityRecognitionResult> create(Context context) {
-        return Single.create(new ActivitySingle(context));
+    @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
+    public static Single<Location> create(Context context) {
+        return Single.create(new LocationSingle(context));
     }
 
     @Override
-    @RequiresPermission("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
-    protected PendingResult<DetectedActivityResult> createRequest(GoogleApiClient googleApiClient) {
-        return Awareness.SnapshotApi.getDetectedActivity(googleApiClient);
+    @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
+    protected PendingResult<LocationResult> createRequest(GoogleApiClient googleApiClient) {
+        return Awareness.SnapshotApi.getLocation(googleApiClient);
     }
 
     @Override
-    protected ActivityRecognitionResult unwrap(DetectedActivityResult result) {
-        return result.getActivityRecognitionResult();
+    protected Location unwrap(LocationResult result) {
+        return result.getLocation();
     }
 }

@@ -20,36 +20,35 @@ import android.content.Context;
 import android.support.annotation.RequiresPermission;
 
 import com.google.android.gms.awareness.Awareness;
-import com.google.android.gms.awareness.snapshot.WeatherResult;
-import com.google.android.gms.awareness.state.Weather;
+import com.google.android.gms.awareness.snapshot.DetectedActivityResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.location.ActivityRecognitionResult;
 
 import rx.Single;
 
 /**
- *  Provides {@link Single}s that provide information about the current weather at the devices
- *  current location.
+ * Provides {@link Single}s that provide the current activity state of the device.
  */
-class WeatherSingle extends BaseGoogleApiClientRequest<Weather, WeatherResult> {
+class ActivitySingle extends BaseAwarenessSingle<ActivityRecognitionResult, DetectedActivityResult> {
 
-    private WeatherSingle(Context context) {
+    private ActivitySingle(Context context) {
         super(context);
     }
 
-    @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
-    public static Single<Weather> create(Context context) {
-        return Single.create(new WeatherSingle(context));
+    @RequiresPermission("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
+    public static Single<ActivityRecognitionResult> create(Context context) {
+        return Single.create(new ActivitySingle(context));
     }
 
     @Override
-    @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
-    protected PendingResult<WeatherResult> createRequest(GoogleApiClient googleApiClient) {
-        return Awareness.SnapshotApi.getWeather(googleApiClient);
+    protected ActivityRecognitionResult unwrap(DetectedActivityResult result) {
+        return result.getActivityRecognitionResult();
     }
 
     @Override
-    protected Weather unwrap(WeatherResult result) {
-        return result.getWeather();
+    @RequiresPermission("com.google.android.gms.permission.ACTIVITY_RECOGNITION")
+    protected PendingResult<? super DetectedActivityResult> createRequest(GoogleApiClient googleApiClient) {
+        return Awareness.SnapshotApi.getDetectedActivity(googleApiClient);
     }
 }

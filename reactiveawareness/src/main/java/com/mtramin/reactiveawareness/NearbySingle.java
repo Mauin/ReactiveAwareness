@@ -32,7 +32,7 @@ import rx.Single;
 /**
  *  Provides {@link Single}s that provide information about nearby places to the device.
  */
-class NearbySingle extends BaseGoogleApiClientRequest<List<PlaceLikelihood>, PlacesResult> {
+class NearbySingle extends BaseAwarenessSingle<List<PlaceLikelihood>, PlacesResult> {
 
     private NearbySingle(Context context) {
         super(context);

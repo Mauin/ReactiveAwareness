@@ -17,36 +17,39 @@
 package com.mtramin.reactiveawareness;
 
 import android.content.Context;
+import android.support.annotation.RequiresPermission;
 
 import com.google.android.gms.awareness.Awareness;
-import com.google.android.gms.awareness.snapshot.HeadphoneStateResult;
-import com.google.android.gms.awareness.state.HeadphoneState;
+import com.google.android.gms.awareness.snapshot.WeatherResult;
+import com.google.android.gms.awareness.state.Weather;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 
 import rx.Single;
 
 /**
- *  Provides {@link Single}s that provide information about the phones headphone state.
+ *  Provides {@link Single}s that provide information about the current weather at the devices
+ *  current location.
  */
-class HeadphoneSingle extends BaseGoogleApiClientRequest<Boolean, HeadphoneStateResult> {
+class WeatherSingle extends BaseAwarenessSingle<Weather, WeatherResult> {
 
-    private HeadphoneSingle(Context context) {
+    private WeatherSingle(Context context) {
         super(context);
     }
 
-    public static Single<Boolean> create(Context context) {
-        return Single.create(new HeadphoneSingle(context));
+    @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
+    public static Single<Weather> create(Context context) {
+        return Single.create(new WeatherSingle(context));
     }
 
     @Override
-    protected PendingResult<HeadphoneStateResult> createRequest(GoogleApiClient googleApiClient) {
-        return Awareness.SnapshotApi.getHeadphoneState(googleApiClient);
+    @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
+    protected PendingResult<WeatherResult> createRequest(GoogleApiClient googleApiClient) {
+        return Awareness.SnapshotApi.getWeather(googleApiClient);
     }
 
     @Override
-    protected Boolean unwrap(HeadphoneStateResult result) {
-        int headphoneState = result.getHeadphoneState().getState();
-        return headphoneState == HeadphoneState.PLUGGED_IN;
+    protected Weather unwrap(WeatherResult result) {
+        return result.getWeather();
     }
 }

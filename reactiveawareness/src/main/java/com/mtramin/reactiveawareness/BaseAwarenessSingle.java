@@ -16,15 +16,23 @@
 
 package com.mtramin.reactiveawareness;
 
+import android.content.Context;
+
+import com.google.android.gms.awareness.Awareness;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.Result;
+import com.mtramin.servant.GoogleApiClientRequestSingle;
+
 /**
- * Exception thrown by Reactive Context requests.
+ * Base Single for Awareness Requests in a GoogleApiClient
  */
-public class ReactiveSnapshotException extends Throwable {
-    public ReactiveSnapshotException(String message) {
-        super(message);
+abstract class BaseAwarenessSingle<T, R extends Result> extends GoogleApiClientRequestSingle<T, R> {
+    BaseAwarenessSingle(Context context) {
+        super(context);
     }
 
-    public ReactiveSnapshotException(String message, Throwable cause) {
-        super(message, cause);
+    @Override
+    protected Api getApi() {
+        return Awareness.API;
     }
 }

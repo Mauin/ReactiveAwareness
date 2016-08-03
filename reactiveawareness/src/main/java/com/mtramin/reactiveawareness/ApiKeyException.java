@@ -17,7 +17,7 @@
 package com.mtramin.reactiveawareness;
 
 /**
- * Exception thrown when API Keys for ReactiveAwareness are missings
+ * Exception thrown when API Keys for ReactiveAwareness are missing
  */
 public class ApiKeyException extends RuntimeException {
     public ApiKeyException(String message) {
