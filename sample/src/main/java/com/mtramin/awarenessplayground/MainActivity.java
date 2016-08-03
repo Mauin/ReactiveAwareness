@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setActivity(ActivityRecognitionResult result) {
-        String activityText = String.format(Locale.US, "%s (%d)", DetectedActivity.zzsu(result.getMostProbableActivity().getType()), result.getActivityConfidence(result.getMostProbableActivity().getType()));
+        String activityText = String.format(Locale.US, "%s (%d)", DetectedActivity.zzsy(result.getMostProbableActivity().getType()), result.getActivityConfidence(result.getMostProbableActivity().getType()));
         ((TextView) findViewById(R.id.activity)).setText(activityText);
     }
 
