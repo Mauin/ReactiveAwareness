@@ -155,7 +155,7 @@ call the query method.
 ReactiveAwareness brings the following dependencies:
 
 - RxJava
-- Google Play Services (base and location) which provides the Awareness API
+- Google Play Services (contextmanager and location) which provides the Awareness API
 - Support Annotations to let you know which requests need permissions to successfully run
 
 ## Bugs and Feedback
