@@ -46,6 +46,7 @@ android {
 
 dependencies {
     compile project(':reactiveawareness')
+    compile project(':reactiveawareness-fence')
 //    compile "com.mtramin:reactiveawareness:$versions.name"
 
     compile 'com.android.support:multidex:1.0.1'
@@ -53,3 +54,5 @@ dependencies {
     compile "com.android.support:design:$versions.supportLibrary"
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 }
+
+//apply from 'publish.gradle'

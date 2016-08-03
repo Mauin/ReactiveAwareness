@@ -6,17 +6,25 @@ those GoogleApiClients yourself.
 Learn more about the Android Awareness APIs at
 <a href="https://developers.google.com/awareness/">developers.google.com</a>.
 
-Currently only the Snapshot APIs are supported, providing you with current states and data about
-the current context about the users device.
-
-Support for the Fence APIs is planned.
+This library supports both the Snapshot API for providing polling based information about the users
+context as well as the Fence API for getting callbacks for specific states (fences) the users
+context might be in.
 
 ## Set-up
 
-To use ReactiveAwareness in your project, add the library as a dependency in your `build.gradle` file:
+To use ReactiveAwareness in your project, add the library as a dependency in your `build.gradle`
+file:
 ```groovy
 dependencies {
     compile 'com.mtramin:reactiveawareness:0.8.0'
+}
+```
+
+To use ReactiveAwareness Fences in your project, add the library as a dependency in your
+`build.gradle` file:
+```groovy
+dependencies {
+    compile 'com.mtramin:reactiveawareness-fences:0.8.0'
 }
 ```
 
@@ -75,6 +83,72 @@ reactiveSnapshot.getWeather()
         throwable -> handleError(throwable)
     );
 ```
+
+## Using the reactive Fence API (ReactiveFences)
+
+For using reactive fences there are two different options depending on the use case.
+
+To retrieve updates to specific fences while the application is in foreground you can use an
+ObservableFence which will provide updates to its fences via an Observable.
+
+To get updates to fences while the application is either in the foreground but also when it is in
+the background you can use a BackgroundFence.
+
+### Defining Fences
+
+For more information about how to define AwarenessFences please refer to the documentation on
+<a href="https://developers.google.com/awareness/">developers.google.com</a>.
+
+ReactiveAwareness supports all Fences that are available.
+
+### ObservableFence
+
+To use an ObservableFence simply create one by calling:
+
+``` java
+ObservableFence.create(context, fence)
+    .subscribe(
+            isTrue -> Log.e("TEST", "Observable Fence State: " + isTrue),
+            throwable -> handleError(throwable)
+    )
+```
+
+As long as you are subscribed to this Observable you will continue to receive status updates when
+the state of the fence changes. Please remember to unsubscribe from the Observable when appropriate.
+This will also automatically unregister the fence and will stop further updates.
+
+### BackgroundFence
+
+BackgroundFences will also receive updates to fence states when the application is in the background
+via a BroadcastReceiver. To use BackgroundFences you have to extend the libraries FenceReceiver in
+your application and implement the onUpdate method which will notify your implementation about state
+changes in one of your fences.
+
+Please register your implementation of the FenceReceiver in your AndroidManifest.xml. Please also
+keep the action name and use "ReactiveAwarenessFence" as the action.
+
+``` xml
+<receiver android:name=".ExampleFenceReceiver">
+    <intent-filter>
+        <action android:name="ReactiveAwarenessFence"/>
+    </intent-filter>
+</receiver>
+```
+
+BackgroundFences are named with unique names. This way you can identify which of your fences was
+updated.
+
+For registering and unregistering use the BackgroundFence class which provides you the necessary
+methods to do so:
+
+``` java
+BackgroundFence.register(context, "name_example", fence);
+
+BackgroundFence.unregister(context, "name_example");
+```
+
+To query which fences are currently registered and to retrieve their current states you can also
+call the query method.
 
 ## Dependencies
 
