@@ -7,10 +7,10 @@ android:
       - platform-tools
       - build-tools-24.0.1
       - android-24
-
-      # Additional components
-      - extra-android-m2repository
-      - extra-android-support
+#
+#      # Additional components
+#      - extra-android-m2repository
+#      - extra-android-support
 
 jdk:
   - oraclejdk8
