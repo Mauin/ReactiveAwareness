@@ -52,7 +52,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile "com.android.support:appcompat-v7:$versions.supportLibrary"
     compile "com.android.support:design:$versions.supportLibrary"
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha5'
 }
-
-//apply from 'publish.gradle'
