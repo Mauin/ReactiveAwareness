@@ -17,6 +17,7 @@
 package com.mtramin.awarenessplayground;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void subscribeToLocationBasedSnapshots() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
