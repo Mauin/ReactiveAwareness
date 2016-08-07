@@ -9,8 +9,8 @@ android:
       - android-24
 #
 #      # Additional components
-#      - extra-android-m2repository
-#      - extra-android-support
+      - extra-android-m2repository
+      - extra-android-support
 
 jdk:
   - oraclejdk8
