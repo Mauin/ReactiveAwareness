@@ -62,6 +62,6 @@ class UnregisterBackgroundFenceAction {
     }
 
     private void onClientError(Throwable throwable) {
-        Log.e("TEST", "client error " + throwable.getLocalizedMessage());
+        Log.e("ReactiveAwareness", "Error when updating Fence in GoogleApiClient: " + throwable.getLocalizedMessage());
     }
 }

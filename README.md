@@ -108,7 +108,7 @@ To use an ObservableFence simply create one by calling:
 ``` java
 ObservableFence.create(context, fence)
     .subscribe(
-            isTrue -> Log.e("TEST", "Observable Fence State: " + isTrue),
+            isTrue -> Log.e(TAG, "Observable Fence State: " + isTrue),
             throwable -> handleError(throwable)
     )
 ```
