@@ -17,6 +17,8 @@
 package com.mtramin.reactiveawareness_fence;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.awareness.Awareness;
@@ -27,18 +29,23 @@ import com.mtramin.servant.ClientException;
 import com.mtramin.servant.Servant;
 
 /**
- * Registers a backgorund fence
+ * Registers a background fence
  */
 class RegisterBackgroundFenceAction {
 
     private final Context context;
+    private final Bundle data;
     private String name;
     private AwarenessFence fence;
 
-    private RegisterBackgroundFenceAction(Context context, String name, AwarenessFence fence) {
+    private RegisterBackgroundFenceAction(Context context,
+                                          String name,
+                                          AwarenessFence fence,
+                                          @Nullable Bundle data) {
         this.context = context;
         this.name = name;
         this.fence = fence;
+        this.data = data;
 
         Servant.actions(context, Awareness.API, this::onClientConnected, this::onClientError);
     }
@@ -51,12 +58,29 @@ class RegisterBackgroundFenceAction {
      * @param fence   fence to register
      */
     static void register(Context context, String name, AwarenessFence fence) {
-        new RegisterBackgroundFenceAction(context.getApplicationContext(), name, fence);
+        new RegisterBackgroundFenceAction(context.getApplicationContext(), name, fence, null);
+    }
+
+    /**
+     * Registers the given fence with extra data to be delivered on callbacks.
+     * <p>
+     * Will receive updates in the background.
+     *
+     * @param context context to use
+     * @param name    name of the fence
+     * @param fence   fence to register
+     * @param data    data to attach to the fence
+     */
+    static void registerWithData(Context context,
+                                 String name,
+                                 AwarenessFence fence,
+                                 @Nullable Bundle data) {
+        new RegisterBackgroundFenceAction(context.getApplicationContext(), name, fence, data);
     }
 
     private void onClientConnected(GoogleApiClient googleApiClient) {
         FenceUpdateRequest fenceRequest = new FenceUpdateRequest.Builder()
-                .addFence(name, fence, FenceReceiver.createPendingIntent(context))
+                .addFence(name, fence, FenceReceiver.createPendingIntent(context, fence.hashCode(), data))
                 .build();
 
         Awareness.FenceApi.updateFences(googleApiClient, fenceRequest)

@@ -94,28 +94,15 @@ ObservableFence which will provide updates to its fences via an Observable.
 To get updates to fences while the application is either in the foreground but also when it is in
 the background you can use a BackgroundFence.
 
+Fences will return you with a boolean value. True indicates that the fence conditions are valid,
+while false indicates the contrary.
+
 ### Defining Fences
 
 For more information about how to define AwarenessFences please refer to the documentation on
 <a href="https://developers.google.com/awareness/">developers.google.com</a>.
 
-ReactiveAwareness supports all Fences that are available.
-
-### ObservableFence
-
-To use an ObservableFence simply create one by calling:
-
-``` java
-ObservableFence.create(context, fence)
-    .subscribe(
-            isTrue -> Log.e(TAG, "Observable Fence State: " + isTrue),
-            throwable -> handleError(throwable)
-    )
-```
-
-As long as you are subscribed to this Observable you will continue to receive status updates when
-the state of the fence changes. Please remember to unsubscribe from the Observable when appropriate.
-This will also automatically unregister the fence and will stop further updates.
+ReactiveAwareness supports all Fences that are available in the Fence API.
 
 ### BackgroundFence
 
@@ -149,6 +136,35 @@ BackgroundFence.unregister(context, "name_example");
 
 To query which fences are currently registered and to retrieve their current states you can also
 call the query method.
+
+#### Fence Data
+
+Fences can have data attached to them. So if you need some more information about a fence other than
+it's condition being true or false you can attach data to a Fence in form of a Bundle.
+
+Create your fence with a bundle and all callbacks that are delivered to your `FenceReceiver`
+implementation will also contain this bundle.
+
+``` java
+BackgroundFence.registerWithData(this, "name_example", fence, bundle);
+```
+
+### ObservableFence
+
+To use an ObservableFence simply create one by calling:
+
+``` java
+ObservableFence.create(context, fence)
+    .subscribe(
+            isTrue -> Log.e(TAG, "Observable Fence State: " + isTrue),
+            throwable -> handleError(throwable)
+    )
+```
+
+As long as you are subscribed to this Observable you will continue to receive status updates when
+the state of the fence changes. Please remember to unsubscribe from the Observable when appropriate.
+This will also automatically unregister the fence and will stop further updates.
+
 
 ## Dependencies
 

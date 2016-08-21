@@ -45,10 +45,10 @@ android {
 }
 
 dependencies {
-//    compile project(':reactiveawareness')
-//    compile project(':reactiveawareness-fence')
-    compile "com.mtramin:reactiveawareness:$versions.name"
-    compile "com.mtramin:reactiveawareness-fence:$versions.name"
+    compile project(':reactiveawareness')
+    compile project(':reactiveawareness-fence')
+//    compile "com.mtramin:reactiveawareness:$versions.name"
+//    compile "com.mtramin:reactiveawareness-fence:$versions.name"
 
     compile 'com.android.support:multidex:1.0.1'
     compile "com.android.support:appcompat-v7:$versions.supportLibrary"
