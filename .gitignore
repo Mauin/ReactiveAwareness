@@ -29,3 +29,5 @@ proguard/
 *.iml
 .idea
 
+*.DS_STORE
+
