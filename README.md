@@ -16,7 +16,7 @@ To use ReactiveAwareness in your project, add the library as a dependency in you
 file:
 ```groovy
 dependencies {
-    compile 'com.mtramin:reactiveawareness:1.0.0'
+    compile 'com.mtramin:reactiveawareness:1.1.0'
 }
 ```
 
@@ -24,7 +24,7 @@ To use ReactiveAwareness Fences in your project, add the library as a dependency
 `build.gradle` file:
 ```groovy
 dependencies {
-    compile 'com.mtramin:reactiveawareness-fence:1.0.0'
+    compile 'com.mtramin:reactiveawareness-fence:1.1.0'
 }
 ```
 
