@@ -46,7 +46,6 @@ import rx.subscriptions.Subscriptions;
 public class ObservableFence implements Observable.OnSubscribe<Boolean> {
 
     private static final String RECEIVER_ACTION = "ACTION_REACTIVE_AWARENESS";
-    private static final int REQUEST_CODE = 42390857;
     private static final String OBSERVABLE_FENCE = "ObservableFence";
 
     private final Context context;
@@ -86,7 +85,7 @@ public class ObservableFence implements Observable.OnSubscribe<Boolean> {
         };
 
         context.registerReceiver(receiver, new IntentFilter(RECEIVER_ACTION));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, new Intent(RECEIVER_ACTION), 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, fence.hashCode(), new Intent(RECEIVER_ACTION), 0);
 
         FenceUpdateRequest fenceUpdateRequest = new FenceUpdateRequest.Builder()
                 .addFence(OBSERVABLE_FENCE, fence, pendingIntent)

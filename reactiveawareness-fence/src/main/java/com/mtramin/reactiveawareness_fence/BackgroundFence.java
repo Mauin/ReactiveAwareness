@@ -17,6 +17,8 @@
 package com.mtramin.reactiveawareness_fence;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.FenceStateMap;
@@ -49,6 +51,9 @@ public class BackgroundFence {
      * <p>
      * Once the state of the fence changes, the fence status will be sent to the receiver where you
      * can act on the fence results.
+     * <p>
+     * If you need to attach additional data to your fence result, consider calling
+     * {@link #registerWithData(Context, String, AwarenessFence, Bundle)}.
      *
      * @param context        Context to use for registering the fence
      * @param name           name of the fence to register. Should be unique
@@ -56,6 +61,27 @@ public class BackgroundFence {
      */
     public static void register(Context context, String name, AwarenessFence awarenessFence) {
         RegisterBackgroundFenceAction.register(context, name, awarenessFence);
+    }
+
+    /**
+     * Registers a background fence that will receive status callbacks via a {@link FenceReceiver}
+     * that should be extended in the application and registered in the AndroidManifest.xml.
+     * <p>
+     * Once the state of the fence changes, the fence status will be sent to the receiver where you
+     * can act on the fence results.
+     * <p>
+     * Additional data about the fence can be added via the data {@link Bundle} that will also be
+     * delivered once the Fence receives a callback in the {@link FenceReceiver}.
+     *
+     * @param context        Context to use for registering the fence
+     * @param name           name of the fence to register. Should be unique
+     * @param awarenessFence The fence description
+     * @param data           data to attach to the fence. This data bundle will also be returned on
+     *                       Fence Callbacks. Instead of passing {@code null}, call
+     *                       {@link #register(Context, String, AwarenessFence)} instead.
+     */
+    public static void registerWithData(Context context, String name, AwarenessFence awarenessFence, @Nullable Bundle data) {
+        RegisterBackgroundFenceAction.registerWithData(context, name, awarenessFence, data);
     }
 
     /**

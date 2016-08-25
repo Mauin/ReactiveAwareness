@@ -16,22 +16,43 @@
 
 package com.mtramin.awarenessplayground;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.mtramin.reactiveawareness_fence.BackgroundFence;
 import com.mtramin.reactiveawareness_fence.FenceReceiver;
 
 /**
- * TODO: JAVADOC
+ * Implementation of Fence Receiver that will receive the callbacks from BackgroundFences
  */
 public class ExampleFenceReceiver extends FenceReceiver {
 
     public static final String HEADPHONES = "Headphones";
+    public static final String TIME = "TimeFence";
 
     @Override
-    protected void onUpdate(String key, boolean state) {
+    protected void onUpdate(@NonNull Context context, @NonNull String key, boolean state, @Nullable Bundle bundle) {
         switch (key) {
             case HEADPHONES:
                 Log.e("TEST", "Headphones: " + state);
+                break;
+            case TIME:
+                if (bundle != null) {
+                    long start = bundle.getLong("start");
+                    long secondsAgo = (long) ((System.currentTimeMillis() - start) / 1000.0);
+
+                    Log.e("TEST", String.format("Time fence was created %d ago", secondsAgo));
+                    Log.e("TEST", "Time: " + state);
+
+                    if (state) {
+                        BackgroundFence.unregister(context, ExampleFenceReceiver.TIME);
+                    }
+                } else {
+                    Log.e("TEST", "Time bundle was null ");
+                }
                 break;
         }
     }

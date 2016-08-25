@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
             subscribeToLocationBasedSnapshots();
         }
 
-
         subscribeToBackgroundFence();
+        subscribeToBackgroundFenceWithData();
         subscribeToRuntimeFence();
     }
 
@@ -88,8 +88,32 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    private void subscribeToBackgroundFenceWithData() {
+        long now = System.currentTimeMillis();
+        long in5seconds = now + 5000;
+        long in10seconds = now + 10000;
+
+        Bundle bundle = new Bundle();
+        bundle.putLong("start", now);
+
+        subscriptions.add(BackgroundFence.query(this)
+                .subscribe(
+                        fenceStateMap -> {
+                            if (!fenceStateMap.getFenceKeys().contains(ExampleFenceReceiver.TIME)) {
+                                AwarenessFence fence = TimeFence.inInterval(in5seconds, in10seconds);
+                                BackgroundFence.registerWithData(this, ExampleFenceReceiver.TIME, fence, bundle);
+                            }
+                        },
+                        throwable -> logError(throwable, "query")
+                )
+        );
+    }
+
     private void subscribeToRuntimeFence() {
-        AwarenessFence fence = TimeFence.inInterval(5000, 10000);
+        long now = System.currentTimeMillis();
+        long inHalfASecond = now + 500;
+        long inASecond = now + 1000;
+        AwarenessFence fence = TimeFence.inInterval(inHalfASecond, inASecond);
         subscriptions.add(
                 ObservableFence.create(this, fence)
                         .subscribe(
