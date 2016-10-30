@@ -22,7 +22,6 @@ import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.FenceQueryRequest;
 import com.google.android.gms.awareness.fence.FenceQueryResult;
 import com.google.android.gms.awareness.fence.FenceStateMap;
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.mtramin.servant.GoogleApiClientRequestSingle;
@@ -37,7 +36,7 @@ import rx.Single;
 class QueryBackgroundFenceSingle extends GoogleApiClientRequestSingle<FenceStateMap, FenceQueryResult> {
 
     private QueryBackgroundFenceSingle(Context context) {
-        super(context);
+        super(context, Awareness.API);
     }
 
     /**
@@ -47,11 +46,6 @@ class QueryBackgroundFenceSingle extends GoogleApiClientRequestSingle<FenceState
      */
     static Single<FenceStateMap> query(Context context) {
         return Single.create(new QueryBackgroundFenceSingle(context.getApplicationContext()));
-    }
-
-    @Override
-    protected Api getApi() {
-        return Awareness.API;
     }
 
     @Override
