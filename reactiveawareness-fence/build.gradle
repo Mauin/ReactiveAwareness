@@ -49,7 +49,7 @@ dependencies {
     compile "com.mtramin:servant:$versions.servant"
 
     compile "com.android.support:support-annotations:$versions.supportLibrary"
-    compile "com.google.android.gms:play-services-contextmanager:$versions.playServices"
+    compile "com.google.android.gms:play-services-awareness:$versions.playServices"
     compile "com.google.android.gms:play-services-location:$versions.playServices"
 
     compile "io.reactivex:rxjava:$versions.rxJava"
