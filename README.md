@@ -1,4 +1,4 @@
-# ReactiveAwareness: Android Awareness APIs in a reactive manner with RxJava
+# ReactiveAwareness: Android Awareness APIs in a reactive manner with RxJava2
 
 ReactiveAwareness lets you use the Android Awareness API with RxJava and without handling all
 those GoogleApiClients yourself.
@@ -170,7 +170,7 @@ This will also automatically unregister the fence and will stop further updates.
 
 ReactiveAwareness brings the following dependencies:
 
-- RxJava
+- RxJava (v2.x)
 - Google Play Services (contextmanager and location) which provides the Awareness API
 - Support Annotations to let you know which requests need permissions to successfully run
 
