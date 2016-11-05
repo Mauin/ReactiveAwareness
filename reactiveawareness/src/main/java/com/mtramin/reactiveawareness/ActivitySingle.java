@@ -25,7 +25,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.ActivityRecognitionResult;
 
-import rx.Single;
+import io.reactivex.Single;
 
 /**
  * Provides {@link Single}s that provide the current activity state of the device.

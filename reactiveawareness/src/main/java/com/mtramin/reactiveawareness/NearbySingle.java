@@ -27,7 +27,7 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 
 import java.util.List;
 
-import rx.Single;
+import io.reactivex.Single;
 
 /**
  *  Provides {@link Single}s that provide information about nearby places to the device.

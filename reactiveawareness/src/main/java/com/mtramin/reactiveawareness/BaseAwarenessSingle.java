@@ -20,7 +20,7 @@ import android.content.Context;
 
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.common.api.Result;
-import com.mtramin.servant.GoogleApiClientRequestSingle;
+import com.mtramin.servant2.GoogleApiClientRequestSingle;
 
 /**
  * Base Single for Awareness Requests in a GoogleApiClient

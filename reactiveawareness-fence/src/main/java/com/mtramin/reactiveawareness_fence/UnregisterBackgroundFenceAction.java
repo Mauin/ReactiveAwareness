@@ -22,8 +22,8 @@ import android.util.Log;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.FenceUpdateRequest;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.mtramin.servant.ClientException;
-import com.mtramin.servant.Servant;
+import com.mtramin.servant2.ClientException;
+import com.mtramin.servant2.Servant;
 
 /**
  * Action to unregister a background fence.

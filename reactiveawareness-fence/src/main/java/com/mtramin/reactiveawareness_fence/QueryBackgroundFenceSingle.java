@@ -24,9 +24,9 @@ import com.google.android.gms.awareness.fence.FenceQueryResult;
 import com.google.android.gms.awareness.fence.FenceStateMap;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.mtramin.servant.GoogleApiClientRequestSingle;
+import com.mtramin.servant2.GoogleApiClientRequestSingle;
 
-import rx.Single;
+import io.reactivex.Single;
 
 /**
  * Single that will query the currently registered fences and their states.
