@@ -27,12 +27,12 @@ import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.FenceState;
 import com.google.android.gms.awareness.fence.FenceUpdateRequest;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.mtramin.servant.ClientException;
-import com.mtramin.servant.Servant;
+import com.mtramin.servant2.ClientException;
+import com.mtramin.servant2.Servant;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.subscriptions.Subscriptions;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * A Fence whose state can be observed.
@@ -40,10 +40,10 @@ import rx.subscriptions.Subscriptions;
  * Make sure to unsubscribe from this fence when appropriate to not leak the fence and keep your
  * application alive in the background.
  *
- * When you unsubscribe from the resulting {@link rx.Subscription} will also automatically
+ * When you unsubscribe from the resulting {@link io.reactivex.disposables.Disposable} will also automatically
  * unregister the fence.
  */
-public class ObservableFence implements Observable.OnSubscribe<Boolean> {
+public class ObservableFence implements ObservableOnSubscribe<Boolean> {
 
     private static final String RECEIVER_ACTION = "ACTION_REACTIVE_AWARENESS";
     private static final String OBSERVABLE_FENCE = "ObservableFence";
@@ -61,7 +61,7 @@ public class ObservableFence implements Observable.OnSubscribe<Boolean> {
     /**
      * Creates an observable fence that will deliver status updates as an {@link Observable}.
      *
-     * Unsubscribing from the resulting {@link rx.Subscription} will also unregister the fence.
+     * Unsubscribing from the resulting {@link io.reactivex.disposables.Disposable} will also unregister the fence.
      *
      * @param context context to use
      * @param fence the fence to register
@@ -74,13 +74,13 @@ public class ObservableFence implements Observable.OnSubscribe<Boolean> {
     }
 
     @Override
-    public void call(Subscriber<? super Boolean> subscriber) {
+    public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 FenceState state = FenceState.extract(intent);
                 boolean result = state.getCurrentState() == FenceState.TRUE;
-                subscriber.onNext(result);
+                emitter.onNext(result);
             }
         };
 
@@ -94,18 +94,19 @@ public class ObservableFence implements Observable.OnSubscribe<Boolean> {
         Awareness.FenceApi.updateFences(googleApiClient, fenceUpdateRequest)
                 .setResultCallback(status -> {
                     if (!status.isSuccess()) {
-                        subscriber.onError(new ClientException("Error adding observable fence. " + status.getStatusMessage()));
+                        emitter.onError(new ClientException("Error adding observable fence. " + status.getStatusMessage()));
                     }
-                    subscriber.onCompleted();
+                    emitter.onComplete();
                 });
 
-        subscriber.add(Subscriptions.create(() -> {
+        emitter.setCancellable(() -> {
             context.unregisterReceiver(receiver);
-            unregisterFenceRequest(googleApiClient, subscriber);
-        }));
+            unregisterFenceRequest(googleApiClient, emitter);
+        });
     }
 
-    private void unregisterFenceRequest(GoogleApiClient googleApiClient, Subscriber<? super Boolean> subscriber) {
+
+    private void unregisterFenceRequest(GoogleApiClient googleApiClient, ObservableEmitter<Boolean> emitter) {
         FenceUpdateRequest fenceUpdateRequest = new FenceUpdateRequest.Builder()
                 .removeFence(OBSERVABLE_FENCE)
                 .build();
@@ -113,13 +114,13 @@ public class ObservableFence implements Observable.OnSubscribe<Boolean> {
         Awareness.FenceApi.updateFences(googleApiClient, fenceUpdateRequest)
                 .setResultCallback(status -> {
                     if (!status.isSuccess()) {
-                        subscriber.onError(new ClientException("Error removing observable fence. " + status.getStatusMessage()));
+                        emitter.onError(new ClientException("Error removing observable fence. " + status.getStatusMessage()));
                     }
 
                     if (googleApiClient.isConnecting() || googleApiClient.isConnected()) {
                         googleApiClient.disconnect();
                     }
-                    subscriber.onCompleted();
+                    emitter.onComplete();
                 });
     }
 

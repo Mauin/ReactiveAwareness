@@ -42,12 +42,12 @@ import com.mtramin.reactiveawareness_fence.ObservableFence;
 
 import java.util.Locale;
 
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 38928;
-    private CompositeSubscription subscriptions = new CompositeSubscription();
+    private CompositeDisposable disposables = new CompositeDisposable();
     private ReactiveSnapshot reactiveSnapshot;
 
     @Override
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void subscribeToBackgroundFence() {
-        subscriptions.add(BackgroundFence.query(this)
+        disposables.add(BackgroundFence.query(this)
                 .subscribe(
                         fenceStateMap -> {
                             if (!fenceStateMap.getFenceKeys().contains(ExampleFenceReceiver.HEADPHONES)) {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putLong("start", now);
 
-        subscriptions.add(BackgroundFence.query(this)
+        disposables.add(BackgroundFence.query(this)
                 .subscribe(
                         fenceStateMap -> {
                             if (!fenceStateMap.getFenceKeys().contains(ExampleFenceReceiver.TIME)) {
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         long inHalfASecond = now + 500;
         long inASecond = now + 1000;
         AwarenessFence fence = TimeFence.inInterval(inHalfASecond, inASecond);
-        subscriptions.add(
+        disposables.add(
                 ObservableFence.create(this, fence)
                         .subscribe(
                                 isTrue -> Log.e("TEST", "Runtime Fence: " + isTrue),
@@ -125,12 +125,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        subscriptions.clear();
+        disposables.clear();
         super.onStop();
     }
 
     private void subscribeToContexts() {
-        subscriptions.add(
+        disposables.add(
                 reactiveSnapshot.getActivity()
                         .subscribe(
                                 this::setActivity,
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         )
         );
 
-        subscriptions.add(
+        disposables.add(
                 reactiveSnapshot.headphonesPluggedIn()
                         .subscribe(
                                 this::setHeadphoneState,
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        subscriptions.add(
+        disposables.add(
                 reactiveSnapshot.getLocation()
                         .subscribe(
                                 this::setLocation,
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                         )
         );
 
-        subscriptions.add(
+        disposables.add(
                 reactiveSnapshot.getWeather()
                         .subscribe(
                                 this::setWeather,
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                         )
         );
 
-        subscriptions.add(
+        disposables.add(
                 reactiveSnapshot.getNearbyPlaces()
                         .subscribe(
                                 places -> Log.e("Awareness", "have nearby locations "),
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            subscriptions.add(
+            disposables.add(
                     reactiveSnapshot.getBeacons(BeaconState.TypeFilter.with("this", "that"))
                             .subscribe(
                                     places -> Log.e("Awareness", "have nearby beacons"),

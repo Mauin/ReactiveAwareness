@@ -23,7 +23,7 @@ import android.support.annotation.Nullable;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.FenceStateMap;
 
-import rx.Single;
+import io.reactivex.Single;
 
 /**
  * Defines an Awareness Fence that will receive status updates even when the application is in the

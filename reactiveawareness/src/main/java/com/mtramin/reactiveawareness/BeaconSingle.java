@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import rx.Single;
+import io.reactivex.Single;
 
 /**
  * Provides {@link Single}s that provide information about nearby beacons to the device.

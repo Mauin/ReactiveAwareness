@@ -24,7 +24,7 @@ import com.google.android.gms.awareness.state.HeadphoneState;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 
-import rx.Single;
+import io.reactivex.Single;
 
 /**
  *  Provides {@link Single}s that provide information about the phones headphone state.

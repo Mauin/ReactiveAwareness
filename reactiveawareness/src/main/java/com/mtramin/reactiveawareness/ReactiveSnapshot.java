@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import rx.Single;
+import io.reactivex.Single;
 
 import static com.mtramin.reactiveawareness.ApiKeyGuard.API_KEY_AWARENESS_API;
 import static com.mtramin.reactiveawareness.ApiKeyGuard.API_KEY_BEACON_API;
