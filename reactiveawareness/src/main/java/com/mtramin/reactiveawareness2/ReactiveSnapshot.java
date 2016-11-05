@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.reactiveawareness;
+package com.mtramin.reactiveawareness2;
 
 import android.content.Context;
 import android.location.Location;
@@ -35,10 +35,10 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-import static com.mtramin.reactiveawareness.ApiKeyGuard.API_KEY_AWARENESS_API;
-import static com.mtramin.reactiveawareness.ApiKeyGuard.API_KEY_BEACON_API;
-import static com.mtramin.reactiveawareness.ApiKeyGuard.API_KEY_PLACES_API;
-import static com.mtramin.reactiveawareness.ApiKeyGuard.guardWithApiKey;
+import static com.mtramin.reactiveawareness2.ApiKeyGuard.API_KEY_AWARENESS_API;
+import static com.mtramin.reactiveawareness2.ApiKeyGuard.API_KEY_BEACON_API;
+import static com.mtramin.reactiveawareness2.ApiKeyGuard.API_KEY_PLACES_API;
+import static com.mtramin.reactiveawareness2.ApiKeyGuard.guardWithApiKey;
 
 /**
  * Accessor class for Reactive Context values. All methods exposed query the Snapshot API to give

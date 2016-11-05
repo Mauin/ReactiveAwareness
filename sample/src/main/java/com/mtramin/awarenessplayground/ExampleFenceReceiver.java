@@ -22,8 +22,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.mtramin.reactiveawareness_fence.BackgroundFence;
-import com.mtramin.reactiveawareness_fence.FenceReceiver;
+import com.mtramin.reactiveawarenessfence.BackgroundFence;
+import com.mtramin.reactiveawarenessfence.FenceReceiver;
 
 /**
  * Implementation of Fence Receiver that will receive the callbacks from BackgroundFences

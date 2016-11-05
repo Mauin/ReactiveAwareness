@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.reactiveawareness;
+package com.mtramin.reactiveawareness2;
 
 /**
  * Exception thrown when API Keys for ReactiveAwareness are missing

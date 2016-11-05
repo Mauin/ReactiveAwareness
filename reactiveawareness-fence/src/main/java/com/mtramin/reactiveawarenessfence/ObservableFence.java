@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mtramin.reactiveawareness_fence;
+package com.mtramin.reactiveawarenessfence;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;

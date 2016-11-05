@@ -36,9 +36,9 @@ import com.google.android.gms.awareness.state.HeadphoneState;
 import com.google.android.gms.awareness.state.Weather;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
-import com.mtramin.reactiveawareness.ReactiveSnapshot;
-import com.mtramin.reactiveawareness_fence.BackgroundFence;
-import com.mtramin.reactiveawareness_fence.ObservableFence;
+import com.mtramin.reactiveawareness2.ReactiveSnapshot;
+import com.mtramin.reactiveawarenessfence.BackgroundFence;
+import com.mtramin.reactiveawarenessfence.ObservableFence;
 
 import java.util.Locale;
 
